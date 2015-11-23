@@ -49,9 +49,16 @@ if __name__ == "__main__":
     ### If a path is specified and that path exists, use it as base_path, else use this files path ###
     if (args.path != None) and (os.path.exists(args.path)):
         base_path = args.path 
-    else:
+    elif (args.path != None) and not (os.path.exists(args.path)):
+        try:
+            os.mkdir(args.path)
+            base_path = arg.path
+        except:
+            print "No valid path specified, using this files location as base path."
+            base_path = os.path.dirname(os.path.abspath(__file__))
+    else:    
         base_path = os.path.dirname(os.path.abspath(__file__))
-        print "No valid path specified, using this files location as base path."
+        print "No path specified, using this files location as base path."
 
     ### Default content of "project.wsgi" ###
     wsgi = """# -*- coding: utf-8 -*-
@@ -78,14 +85,14 @@ from MySQLdb import escape_string as guard
 import logging
 import gc
 
-log_dir = "/var/www-data/"
+log_dir = "%s"
 if not os.path.isdir(log_dir):
     os.mkdir(log_dir)
 
 ### Setting up the logger ###
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler(os.path.join(log_dir, "logfile.log"))
+handler = logging.FileHandler(os.path.join(log_dir, "%s.log"))
 handler.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 handler.setFormatter(formatter)
@@ -97,7 +104,7 @@ app = Flask(__name__)
 ### Adding route for the homepage "www.example.com/" ###
 @app.route("/")
 def homepage():
-    return 'It worked, now to add content...' """
+    return 'It worked, now to add content...' """ % (os.path.join(base_path, log), args.name)
 
     ### Default content of "dbconnect.py" ###
     dbconnect = """#-*- coding: utf-8 -*-
