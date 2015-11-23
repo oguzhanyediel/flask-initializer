@@ -2,7 +2,7 @@
 A simple python script to initialize a new flask project
 * basic folder structure
 * project_name.wsgi
-* __init__.py
+* \__init__.py
 * dbconnect.py (MySQL connection)
 
 #### TODO:
