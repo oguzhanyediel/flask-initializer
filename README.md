@@ -18,11 +18,14 @@ To initialize a new project in your current working directory simply use the fol
 
 > sudo python create_project.py -n Project_Name
 
-### You can also specify a path where the project is supposed to be created:
+#### You can also specify a path where the project is supposed to be created:
+
 > sudo python create_project.py -n Project_Name -p /path/to/project
 
+
 ### Raspberry Pi usecase
-If you are trying to setup a development flask server on the Raspberry Pi you are going to get an error by the time the script tries to install flask-bcrypt
+If you are trying to setup a development flask server on the Raspberry Pi you are likely going to get an error by the time the script tries to install flask-bcrypt.
+
 To fix this try doing the following:
 
 > sudo apt-get install libffi-dev
