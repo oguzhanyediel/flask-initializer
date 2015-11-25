@@ -16,7 +16,6 @@ def create_venv(path):
     else:
         print "create_venv not valid"
 
-
 def create_structure(path, dir_exists):
     try:
         ### Create folder structure ###
@@ -29,27 +28,32 @@ def create_structure(path, dir_exists):
         os.mkdir(os.path.join(path, args.name, args.name, "static", "fonts"))
         os.mkdir(os.path.join(path, args.name, args.name, "templates"))
         ### Create "/base_path/project/project.wsgi" ###
-        with open(os.path.join(path, args.name, "%s.wsgi" % args.name.lower()), "w") as wsgi_file:
+        with open(os.path.join(path, args.name, "{0}.wsgi".format(args.name.lower()), "w") as wsgi_file:
             wsgi_file.write(wsgi)
         ### Create "/base_path/project/project/__init__.py" ###
         with open(os.path.join(path, args.name, args.name, "__init__.py"), "w") as init_file:
             init_file.write(init)
+        ### Create "/base_path/project/project/run.py" ###
+        with open(os.path.join(path, args.name, args.name, "run.py"), "w") as run_file:
+            run_file.write(run)
+        ### Create "/base_path/project/project/views.py" ###
+        with open(os.path.join(path, args.name, args.name, "views.py"), "w") as views_file:
+            views_file.write(views)
         ### Create "/base_path/project/project/dbconnect.py" ###
         with open(os.path.join(path, args.name, args.name, "dbconnect.py"), "w") as db_file:
             db_file.write(dbconnect)
         print "Done creating folder structure, initializing virtualenv."
         create_venv(os.path.join(path, args.name, args.name))
     except Exception as e:
-        print str(e)
-        #print "An error occured, the folder structure probably already exist. Please make sure."
+        print "An error occured, the folder structure probably already exist. Please check."
         sys.exit(0)
-
 
 if __name__ == "__main__":
     ### Create a parser to parse the arguments given in the commandline ###
     parser = argparse.ArgumentParser()
     parser.add_argument("-n", "--name", dest="name", type=str, help="Your project name")
-    parser.add_argument("-p", "--path", dest="path", type=str, help="Path to where your project will go")
+    parser.add_argument("-p", "--path", dest="path", type=str, 
+                        help="Path to where your project will go")
     args = parser.parse_args()
 
     ### Print type and content or arguments when debugging ###
@@ -87,19 +91,18 @@ sys.path.insert(0, "{1}")
 sys.path.append(venv_dir)
 
 from FlaskApp import app as application
-application.secret_key = "secretkeyherewhateverthatmaybe"
-""".format(os.path.join(base_path, args.name, args.name, "venv"), os.path.join(base_path, args.name))
+application.secret_key = "secretkeyherewhateverthatmaybe" 
+""".format(os.path.join(base_path, args.name, args.name, "venv"), 
+           os.path.join(base_path, args.name))
 
     ### Default content of "__init__.py" ###
     init = """# -*- coding: utf-8 -*-
 from flask import Flask, render_template, url_for, redirect, flash, request, session
 from dbconnect import connection
-from passlib.hash import sha256_crypt
-from MySQLdb import escape_string as guard
 import logging
-import gc
 
 log_dir = "{0}"
+
 if not os.path.isdir(log_dir):
     os.mkdir(log_dir)
 
@@ -115,10 +118,22 @@ logger.addHandler(handler)
 ### Initilizing the app ###
 app = Flask(__name__)
 
+import {1}.views""".format(os.path.join(base_path, args.name, "log"), args.name)
+    
+    ### Default content for run.py ###
+    run = """# -*- coding: utf-8 -*-
+from {0} import app
+
+app.run(debug=True)""".format(args.name)
+
+    ### Default content for views.py ###
+    views = """# -*- coding: utf-8 -*-
+from {0} import app, logger
+
 ### Adding route for the homepage "www.example.com/" ###
 @app.route("/")
 def homepage():
-    return 'It worked, now to add content...' """.format(os.path.join(base_path, args.name, "log"))
+    return 'It worked, now to add content...' """.format(args.name)
 
     ### Default content of "dbconnect.py" ###
     dbconnect = """#-*- coding: utf-8 -*-
