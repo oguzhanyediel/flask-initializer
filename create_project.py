@@ -28,7 +28,7 @@ def create_structure(path, dir_exists):
         os.mkdir(os.path.join(path, args.name, args.name, "static", "fonts"))
         os.mkdir(os.path.join(path, args.name, args.name, "templates"))
         ### Create "/base_path/project/project.wsgi" ###
-        with open(os.path.join(path, args.name, "{0}.wsgi".format(args.name.lower()), "w") as wsgi_file:
+        with open(os.path.join(path, args.name, "{0}.wsgi".format(args.name.lower())), "w") as wsgi_file:
             wsgi_file.write(wsgi)
         ### Create "/base_path/project/project/__init__.py" ###
         with open(os.path.join(path, args.name, args.name, "__init__.py"), "w") as init_file:
