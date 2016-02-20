@@ -90,10 +90,10 @@ execfile(activate_this, dict(__file__=activate_this))
 sys.path.insert(0, "{1}")
 sys.path.append(venv_dir)
 
-from FlaskApp import app as application
+from {2} import app as application
 application.secret_key = "secretkeyherewhateverthatmaybe" 
 """.format(os.path.join(base_path, args.name, args.name, "venv"), 
-           os.path.join(base_path, args.name))
+           os.path.join(base_path, args.name), args.name)
 
     ### Default content of "__init__.py" ###
     init = """# -*- coding: utf-8 -*-
