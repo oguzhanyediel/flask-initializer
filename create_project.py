@@ -12,7 +12,7 @@ def create_venv(path):
         subprocess.call("sudo {0}/venv/bin/python {1}/venv/bin/pip install Flask MySQL-python \
                         requests passlib".format(path, path), shell=True)
         subprocess.call("sudo {0}/venv/bin/python {1}/venv/bin/pip install WTForms flask-login \
-                        flask-bcrypt".format(path, path), shell=True)
+                        flask-bcrypt Flask-Mail".format(path, path), shell=True)
     else:
         print "create_venv not valid"
 
@@ -83,17 +83,16 @@ if __name__ == "__main__":
 import sys
 import os
 
-venv_dir = "{0}"
+venv_dir = "/tmp/"
 
 activate_this = os.path.join(venv_dir, "bin", "activate_this.py")
 execfile(activate_this, dict(__file__=activate_this))
-sys.path.insert(0, "{1}")
+sys.path.insert(0, "{0}")
 sys.path.append(venv_dir)
 
-from {2} import app as application
+from {1} import app as application
 application.secret_key = "secretkeyherewhateverthatmaybe" 
-""".format(os.path.join(base_path, args.name, args.name, "venv"), 
-           os.path.join(base_path, args.name), args.name)
+""".format(os.path.join(base_path, args.name), args.name)
 
     ### Default content of "__init__.py" ###
     init = """# -*- coding: utf-8 -*-
@@ -124,7 +123,7 @@ import {1}.views""".format(os.path.join(base_path, args.name, "log"), args.name)
     run = """# -*- coding: utf-8 -*-
 from {0} import app
 
-app.run(debug=True)""".format(args.name)
+app.run()""".format(args.name)
 
     ### Default content for views.py ###
     views = """# -*- coding: utf-8 -*-
