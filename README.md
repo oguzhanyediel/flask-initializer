@@ -25,10 +25,42 @@ To initialize a new project in your current working directory simply use the fol
 > sudo python create_project.py -n ProjectName -p /path/to/folder
 
 
-### Raspberry Pi usecase
-If you are trying to setup a development flask server on the Raspberry Pi you are likely going to get an error by the time the script tries to install flask-bcrypt.
+#### For example:
+Project name: flask-initializer
+Path: /home/pascal/
 
-To fix this try doing the following:
+> sudo python create_project.py -n flask-initializer -p /home/pascal/
 
-> sudo apt-get install libffi-dev
+Folder structure will look like this:
 
+/home/pascal/flask-initializer
+
+---- flask-initializer.wsgi
+
+---- flask-initializer/
+
+-------- __init__.py
+
+-------- dbconnect.py
+
+-------- run.py
+
+-------- views.py
+
+-------- templates/
+
+-------- static/
+
+------------ css/
+
+------------ fonts/
+
+------------ js/
+
+-------- venv/
+
+------------ virtualenv stuff ...
+
+------------ ...
+
+------------ ...
