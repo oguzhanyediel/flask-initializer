@@ -3,13 +3,12 @@ A simple python script to initialize a new flask project aka boiler plate
 * basic folder structure
 * project.wsgi for wsgi deployment
 * \__init__.py
-* run.py
-* views.py
 * dbconnect.py (MySQL connection)
 * virtualenv initialization
   * Flask
-  * flask-login
-  * flask-bcrypt
+  * Flask-Login
+  * Flask-Bcrypt
+  * Flask-Mail
   * WTForms
   * MySQL-python
   * requests
@@ -42,10 +41,6 @@ Folder structure will look like this:
 -------- __init__.py
 
 -------- dbconnect.py
-
--------- run.py
-
--------- views.py
 
 -------- templates/
 

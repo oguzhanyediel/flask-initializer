@@ -28,12 +28,6 @@ def create_structure(path, dir_exists):
 		### Create "/base_path/project/project/__init__.py" ###
 		with open(os.path.join(path, args.name, args.name, "__init__.py"), "w") as init_file:
 			init_file.write(init)
-		### Create "/base_path/project/project/run.py" ###
-		with open(os.path.join(path, args.name, args.name, "run.py"), "w") as run_file:
-			run_file.write(run)
-		### Create "/base_path/project/project/views.py" ###
-		with open(os.path.join(path, args.name, args.name, "views.py"), "w") as views_file:
-			views_file.write(views)
 		### Create "/base_path/project/project/dbconnect.py" ###
 		with open(os.path.join(path, args.name, args.name, "dbconnect.py"), "w") as db_file:
 			db_file.write(dbconnect)
@@ -63,7 +57,7 @@ def create_venv(path):
 		thread.start()
 		### Start installing packages and python modules ###
 		proc = subprocess.Popen("sudo apt-get install -y libffi-dev python-dev mysql-client \
-								 mysql-server python-mysqldb virtualenv", shell=True,
+								 mysql-server virtualenv", shell=True,
 								 stdout=open("/dev/null", "w"), stderr=open("/dev/null", "w"))
 		proc.wait()
 		proc1 = subprocess.Popen("sudo virtualenv {0}/venv".format(path), shell=True, 
@@ -73,7 +67,7 @@ def create_venv(path):
 								 shell=True, stdout=open("/dev/null", "w"), stderr=open("/dev/null", "w"))
 		proc2.wait()
 		proc3 = subprocess.Popen("sudo {0}/venv/bin/pip install requests[security] Flask \
-								 passlib".format(path), shell=True, stdout=open("/dev/null", "w"), 
+								 passlib mysql-python".format(path), shell=True, stdout=open("/dev/null", "w"), 
 								 stderr=open("/dev/null", "w"))
 		proc3.wait()
 		proc4 = subprocess.Popen("sudo {0}/venv/bin/python {1}/venv/bin/pip install WTForms flask-login \
@@ -124,12 +118,12 @@ venv_dir = "{0}"
 
 activate_this = os.path.join(venv_dir, "bin", "activate_this.py")
 execfile(activate_this, dict(__file__=activate_this))
-sys.path.insert(0, "{0}")
+sys.path.insert(0, "{1}")
 sys.path.append(venv_dir)
 
-from {1} import app as application
+from {2} import app as application
 application.secret_key = "secretkeyherewhateverthatmaybe" 
-""".format(os.path.join(base_path, args.name, "venv"), 
+""".format(os.path.join(base_path, args.name, args.name, "venv"), 
 		   os.path.join(base_path, args.name),
 		   args.name)
 
@@ -138,8 +132,9 @@ application.secret_key = "secretkeyherewhateverthatmaybe"
 from flask import Flask, render_template, url_for, redirect, flash, request, session
 from dbconnect import connection
 import logging
+import os
 
-log_dir = "{0}"
+log_dir = "/tmp/"
 
 if not os.path.isdir(log_dir):
 	os.mkdir(log_dir)
@@ -147,7 +142,7 @@ if not os.path.isdir(log_dir):
 ### Setting up the logger ###
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler(os.path.join(log_dir, "logdir.log"))
+handler = logging.FileHandler(os.path.join(log_dir, {0}))
 handler.setLevel(logging.DEBUG)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
@@ -156,23 +151,11 @@ logger.addHandler(handler)
 ### Initilizing the app ###
 app = Flask(__name__)
 
-import {1}.views""".format(os.path.join(base_path, args.name, "log"), 
-						   args.name)
-	
-	### Default content for run.py ###
-	run = """# -*- coding: utf-8 -*-
-from {0} import app
-
-app.run()""".format(args.name)
-
-	### Default content for views.py ###
-	views = """# -*- coding: utf-8 -*-
-from {0} import app, logger
-
-### Adding route for the homepage "www.example.com/" ###
 @app.route("/")
-def homepage():
-	return 'It worked, now to add content...' """.format(args.name)
+def index():
+	return "This is working..."
+
+""".format(args.name)
 
 	### Default content of "dbconnect.py" ###
 	dbconnect = """#-*- coding: utf-8 -*-
