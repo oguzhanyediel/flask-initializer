@@ -32,30 +32,27 @@ Path: /home/pascal/
 
 Folder structure will look like this:
 
-/home/pascal/flask-initializer
+|-- /home/pascal/flask-initializer/
 
----- flask-initializer.wsgi
+    |-- flask-initializer.wsgi
 
----- flask-initializer/
+    |-- flask-initializer/
 
--------- __init__.py
+        |-- __init__.py
 
--------- dbconnect.py
+        |-- dbconnect.py
 
--------- templates/
+        |-- templates/
 
--------- static/
+        |-- static/
 
------------- css/
+            |-- css/
 
------------- fonts/
+            |-- fonts/
 
------------- js/
+            |-- js/
 
--------- venv/
+        |-- venv/
 
------------- virtualenv stuff ...
+            |-- virtualenv stuff ...
 
------------- ...
-
------------- ...
