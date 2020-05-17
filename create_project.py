@@ -43,7 +43,7 @@ def spinning_circle():
 	### Function to show a spinning circle to indicate that the program is working in the background ###
 	spinner = itertools.cycle(['-', '/', '|', '\\'])
 	while True:
-		sys.stdout.write(spinner.next())  # write the next character
+		sys.stdout.write(next(spinner))  # write the next character
 		time.sleep(.1)
 		sys.stdout.flush()                # flush stdout buffer (actual character display)
 		sys.stdout.write('\b') 
